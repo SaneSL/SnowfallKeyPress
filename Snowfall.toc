@@ -1,0 +1,7 @@
+## Interface: 30400
+## Title: Snowfall
+## Author: Sane
+## Version: 1.0
+## Notes: Snowfall version: 1.0
+
+Snowfall.lua
