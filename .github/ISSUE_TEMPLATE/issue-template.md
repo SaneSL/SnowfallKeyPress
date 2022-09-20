@@ -1,7 +1,7 @@
 ---
 name: Issue template
 about: If you found out an issue with the addon, use this template
-title: ''
+title: "[BUG] Enter issue title"
 labels: ''
 assignees: ''
 
