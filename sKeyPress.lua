@@ -82,7 +82,7 @@ local function configDefaultUiPetBar()
 	end
 end
 
-local function configPetBar()
+local function configBartenderPetBar()
 	for i = 1, 10, 1 do
 		local button_command = ("BONUSACTIONBUTTON%d"):format(i)
 		local bt4_button_name = ("BT4PetButton%d"):format(i)
@@ -121,13 +121,32 @@ local function configBartenderButtons()
 	end
 end
 
+local function configDominosButtons()
+	for i = 1, 60, 1 do
+		local button_command = "CLICK DominosActionButton" .. i .. ":HOTKEY"
+		local button_name = ("DominosActionButton%d"):format(i)
+
+		configButton(button_name, button_command)
+	end
+end
+
 local function init()
 	local bartender_loaded = IsAddOnLoaded("Bartender4")
+	local dominos_loaded = IsAddOnLoaded("Dominos")
+
+	if bartender_loaded and dominos_loaded then
+		print("Bartender4 and Dominos loaded, stopping sKeyPress")
+		return
+	end
 
 	if bartender_loaded then
 		configDefaultUiBarOne()
 		configBartenderButtons()
-		configPetBar()
+		configBartenderPetBar()
+	elseif dominos_loaded then
+		configDefaultUiButtons()
+		configDefaultUiPetBar()
+		configDominosButtons()
 	else
 		configDefaultUiButtons()
 		configDefaultUiPetBar()
