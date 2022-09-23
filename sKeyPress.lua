@@ -6,6 +6,10 @@ local replace = string.gsub
 local texture, animationGroup, alpha1, scale1, scale2, rotation2
 local EventFrame = CreateFrame("frame", "EventFrame")
 local addon_loaded = false
+local bartender_loaded, dominos_loaded
+
+-- Issues:
+-- Empty bt4 buttons are pressable / clickable and show animation. They use different hiding than button isVisible().
 
 for i = 1, animationsCount do
 	local frame = CreateFrame("Frame")
@@ -42,6 +46,10 @@ for i = 1, animationsCount do
 end
 
 local function animate(button)
+	if not button:IsVisible() then
+		return true
+	end
+
 	local animation = animations[animationNum]
 	local frame = animation.frame
 	local animationGroup = animation.animationGroup
@@ -102,12 +110,19 @@ end
 
 local function configDefaultUiButtons()
 	for i = 1, 12, 1 do
-		local button_commands = { ("ActionButton%d"):format(i), ("MultiBarBottomLeftButton%d"):format(i),
-			("MultiBarBottomRightButton%d"):format(i), ("MultiBarLeftButton%d"):format(i),
-			("MultiBarRightButton%d"):format(i) }
+
+		-- For some reason MultiBarLeftButton commands are 4
+		-- and MultiBarRightButton commands are 3.
+		local button_commands = {
+			{ ("ActionButton%d"):format(i), ("ACTIONBUTTON%d"):format(i) },
+			{ ("MultiBarBottomLeftButton%d"):format(i), ("MULTIACTIONBAR1BUTTON%d"):format(i) },
+			{ ("MultiBarBottomRightButton%d"):format(i), ("MULTIACTIONBAR2BUTTON%d"):format(i) },
+			{ ("MultiBarLeftButton%d"):format(i), ("MULTIACTIONBAR4BUTTON%d"):format(i) },
+			{ ("MultiBarRightButton%d"):format(i), ("MULTIACTIONBAR3BUTTON%d"):format(i) }
+		}
 
 		for j = 1, 5, 1 do
-			configButton(button_commands[j], string.upper(button_commands[j]))
+			configButton(button_commands[j][1], button_commands[j][2])
 		end
 	end
 end
@@ -131,8 +146,8 @@ local function configDominosButtons()
 end
 
 local function init()
-	local bartender_loaded = IsAddOnLoaded("Bartender4")
-	local dominos_loaded = IsAddOnLoaded("Dominos")
+	bartender_loaded = IsAddOnLoaded("Bartender4")
+	dominos_loaded = IsAddOnLoaded("Dominos")
 
 	if bartender_loaded and dominos_loaded then
 		print("Bartender4 and Dominos loaded, stopping sKeyPress")

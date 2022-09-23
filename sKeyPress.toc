@@ -1,7 +1,7 @@
 ## Interface: 30400
 ## Title: sKeyPress
 ## Author: Sane
-## Version: 1.0.2
-## Notes: sKeyPress version: 1.0.2
+## Version: 1.0.3
+## Notes: sKeyPress version: 1.0.3
 
 sKeyPress.lua
